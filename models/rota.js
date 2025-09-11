@@ -9,5 +9,6 @@ export default (sequelize) => {
     Horario_partida: { type: DataTypes.TIME, allowNull: false },
     Ativa: { type: DataTypes.BOOLEAN, defaultValue: false },
     Numero_passageiros: { type: DataTypes.INTEGER, defaultValue: 0 },
+    Maximo_passageiros: {type: DataTypes.INTEGER, defaultValue: 30}
   }, { tableName: "Rotas", timestamps: false });
 };

@@ -6,5 +6,6 @@ export default (sequelize) => {
     Name: { type: DataTypes.STRING, allowNull: false },
     Password: { type: DataTypes.STRING, allowNull: false },
     CPF: { type: DataTypes.STRING, unique: true, allowNull: false },
+    Admin: { type: DataTypes.BOOLEAN, defaultValue: false }
   }, { tableName: "Motoristas", timestamps: false });
 };
