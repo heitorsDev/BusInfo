@@ -6,61 +6,98 @@ import MotoristaAuthRoute from './routes/MotoristaAuthRoute.js';
 import AdminRegisterRoute from './routes/AdminRegisterRoute.js';
 import ValidateMotorista from './middlewares/ValidateMotorista.js';
 import ValidateAdmin from './middlewares/ValidateAdmin.js';
-
 import cookieParser from 'cookie-parser';
 import RotaRegisterRoute from './routes/RotaRegisterRoute.js';
 import PontoRegisterRoute from './routes/PontoRegisterRoute.js';
 import PontoRotaRegisterRoute from './routes/PontoRotaRegisterRoute.js';
-import { Ponto, PontoRota } from './models/database.js';
-
-
-
-
-
-
-
-
+import RotaUpdateRoute from './routes/RotaUpdateRoute.js';
+import GetRotaRoute from './routes/GetRotaRoute.js';
+import MotoristaRotaRegisterRoute from './routes/MotoristaRotaRegisterRoute.js';
 
 const env = dotenv.config()
 const app = express()
 app.use(express.json())
 app.use(cookieParser());
-
-
-
-app.post('/register', MotoristaRegisterRoute)
-
-app.post('/adminRegister', AdminRegisterRoute)
-
-
-app.post('/login', MotoristaAuthRoute)
 app.listen(process.env.PORT, () => {
     console.log(`Rodando em ${process.env.PORT}`)
 })
 
+app.post('/register', MotoristaRegisterRoute)
+/*
+schema:
+{
+    "Name": "Heitor Santos",
+    "Password": "123456",
+    "CPF": "01681209330"
+}
+*/ 
 
-app.get('/teste', ValidateMotorista, (req, res) => {
-    try {
-        res.send("toma")
-        console.log("req.user", req.user)
-    } catch (err) {
-        console.error(err)
-        res.status(500).send("erro no servidor")
+app.post('/adminRegister', AdminRegisterRoute)
+/*
+schema:
+{
+    "Name": "Heitor Santos 2",
+    "Password": "123456",
+    "CPF": "01681209331",
+    "key": "souadmin"
+}
+*/
 
+app.post('/login', MotoristaAuthRoute)
+/*
+Adm:
+    schema:
+    {
+        "CPF": "01681209331",
+        "Password": "123456"
     }
-})
-
-app.get('/admintest', ValidateMotorista, ValidateAdmin, (req, res) => {
-    try {
-        res.send("toma admin")
-        console.log("req.user", req.user)
-    } catch (err) {
-        console.error(err)
-        res.status(500).send("erro no servidor")
-
+Motorista:
+    schema:
+    {
+        "CPF": "01681209330",
+        "Password": "123456"
     }
-});
+*/
 
 app.post('/rotacreate', ValidateMotorista, ValidateAdmin, RotaRegisterRoute)
+/*
+schema:
+{
+"Name": "Aririri", 
+"Numero": 363, 
+"HorarioPartida": "08:00", 
+"MaximoPassageiros" 40:
+}
+*/
+
 app.post('/pontocreate', ValidateMotorista, ValidateAdmin, PontoRegisterRoute)
+/*
+schema:
+{
+"Localizacao": "Av. Paulista, 1000"
+}
+*/
+
+app.post('/motoristaRotaRegister', ValidateMotorista, ValidateAdmin, MotoristaRotaRegisterRoute)
+/*
+schema:
+{
+"IdMotorista":1, 
+"IdRota":1, 
+"Horario":"08:00"
+}
+*/
+
 app.post('/pontorotacreate', ValidateMotorista, ValidateAdmin, PontoRotaRegisterRoute)
+/*
+{"IdPonto":1, 
+"IdRota":1, 
+"Horario":"09:00"}
+*/
+
+/* Deleta o token do motorista e loga como o outro motorista */
+
+app.post('/rotaupdate', ValidateMotorista, RotaUpdateRoute)
+
+
+app.get('/getrota/:numero', GetRotaRoute)

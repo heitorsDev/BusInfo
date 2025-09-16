@@ -53,10 +53,15 @@ const PontoRota = definePontoRota(sequelize);
 const Motorista = defineMotorista(sequelize);
 const MotoristaRota = defineMotoristaRota(sequelize);
 
-Rota.belongsToMany(Ponto, { through: PontoRota, foreignKey: "Rota_id" });
-Ponto.belongsToMany(Rota, { through: PontoRota, foreignKey: "Ponto_id" });
+Rota.belongsToMany(Ponto, { through: PontoRota, foreignKey: "Rota_id",
+  onDelete: 'CASCADE' });
+Ponto.belongsToMany(Rota, { through: PontoRota, foreignKey: "Ponto_id",
+  onDelete: 'CASCADE' });
 
-Motorista.belongsToMany(Rota, { through: MotoristaRota, foreignKey: "Motorista_id" });
-Rota.belongsToMany(Motorista, { through: MotoristaRota, foreignKey: "Rota_id" });
+Motorista.belongsToMany(Rota, { through: MotoristaRota, foreignKey: "Motorista_id",
+  onDelete: 'CASCADE' });
+Rota.belongsToMany(Motorista, { through: MotoristaRota, foreignKey: "Rota_id",
+  onDelete: 'CASCADE' });
+
 
 export { sequelize, Ponto, Rota, PontoRota, Motorista, MotoristaRota };
