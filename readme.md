@@ -40,13 +40,10 @@ Para inicializar o programa, execute na raiz do seu projeto:
 ```
 node index.js
 ```
-## Endpoints:
-
-# API de Gerenciamento de Motoristas, Rotas e Pontos
 
 ## Endpoints
 
-### **POST Endpoints**
+### **POST**
 
 1. **/register** - Registro de Motoristas (usuários comuns)
     - **Schema**:
@@ -146,7 +143,7 @@ node index.js
 
 ---
 
-### **GET Endpoints**
+### **GET**
 
 1. **/getrota/:numero** - Obter detalhes de uma rota pelo número
     - **Descrição**: Endpoint público para obter detalhes de uma rota específica pelo número da rota.
