@@ -13,15 +13,20 @@ import PontoRotaRegisterRoute from './routes/PontoRotaRegisterRoute.js';
 import RotaUpdateRoute from './routes/RotaUpdateRoute.js';
 import GetRotaRoute from './routes/GetRotaRoute.js';
 import MotoristaRotaRegisterRoute from './routes/MotoristaRotaRegisterRoute.js';
+import GetRotasFromMotoristaRoute from './routes/GetRotasFromMotoristaRoute.js';
 
 const env = dotenv.config()
 const app = express()
+
 app.use(express.json())
 app.use(cookieParser());
+
+
 app.listen(process.env.PORT, () => {
     console.log(`Rodando em ${process.env.PORT}`)
 })
 
+//Rota de registro para usuarios comuns (motoristas)
 app.post('/register', MotoristaRegisterRoute)
 /*
 schema:
@@ -32,6 +37,7 @@ schema:
 }
 */ 
 
+//Rota de registro para administradores
 app.post('/adminRegister', AdminRegisterRoute)
 /*
 schema:
@@ -43,6 +49,7 @@ schema:
 }
 */
 
+//Rota de login para todos os usuarios
 app.post('/login', MotoristaAuthRoute)
 /*
 Adm:
@@ -59,6 +66,7 @@ Motorista:
     }
 */
 
+//Rota de criacao de rotas (somente admin)
 app.post('/rotacreate', ValidateMotorista, ValidateAdmin, RotaRegisterRoute)
 /*
 schema:
@@ -66,10 +74,11 @@ schema:
 "Name": "Aririri", 
 "Numero": 363, 
 "HorarioPartida": "08:00", 
-"MaximoPassageiros" 40:
+"MaximoPassageiros": 40
 }
 */
 
+//Rota de criacao de pontos (somente admin)
 app.post('/pontocreate', ValidateMotorista, ValidateAdmin, PontoRegisterRoute)
 /*
 schema:
@@ -78,6 +87,7 @@ schema:
 }
 */
 
+//Rota de associacao de motorista a rota (somente admin)
 app.post('/motoristaRotaRegister', ValidateMotorista, ValidateAdmin, MotoristaRotaRegisterRoute)
 /*
 schema:
@@ -88,6 +98,7 @@ schema:
 }
 */
 
+//Rota de associacao de ponto a rota (somente admin)
 app.post('/pontorotacreate', ValidateMotorista, ValidateAdmin, PontoRotaRegisterRoute)
 /*
 {"IdPonto":1, 
@@ -95,9 +106,22 @@ app.post('/pontorotacreate', ValidateMotorista, ValidateAdmin, PontoRotaRegister
 "Horario":"09:00"}
 */
 
-/* Deleta o token do motorista e loga como o outro motorista */
+/*TESTE: Deleta o token do motorista e loga como o outro motorista */
 
+//Rota de atualizacao de rota (somente aos motoristas associados a rota)
 app.post('/rotaupdate', ValidateMotorista, RotaUpdateRoute)
+/*
+{
+"IdRota":1, 
+"Numeropassageiros":20, 
+"Ativa":true, 
+"IdMotorista":1 
+}
+*/
 
-
+//API pública para obter detalhes da rota pelo número da rota
 app.get('/getrota/:numero', GetRotaRoute)
+/*localhost:4000/getrota/363*/
+
+
+app.get('/getmotoristarotas/:id', ValidateMotorista, GetRotasFromMotoristaRoute)
