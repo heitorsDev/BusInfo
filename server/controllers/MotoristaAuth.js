@@ -18,7 +18,6 @@ async function MotoristaAuth(CPF, Password) {
       // Retorna uma mensagem de erro se o motorista não for encontrado
       return { success: false, message: "Motorista not found" };
     }
-
     // Compara a senha fornecida com a senha hashada armazenada no banco de dados
     const isPasswordValid = await bcrypt.compare(Password, motorista.Password);
 

@@ -14,13 +14,16 @@ import RotaUpdateRoute from './routes/RotaUpdateRoute.js';
 import GetRotaRoute from './routes/GetRotaRoute.js';
 import MotoristaRotaRegisterRoute from './routes/MotoristaRotaRegisterRoute.js';
 import GetRotasFromMotoristaRoute from './routes/GetRotasFromMotoristaRoute.js';
-
+import cors from 'cors';
 const env = dotenv.config()
 const app = express()
 
 app.use(express.json())
 app.use(cookieParser());
-
+app.use(cors({
+   origin: 'http://localhost:5173',
+   credentials: true
+}))
 
 app.listen(process.env.PORT, () => {
     console.log(`Rodando em ${process.env.PORT}`)
