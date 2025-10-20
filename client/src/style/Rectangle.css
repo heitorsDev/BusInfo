@@ -1,0 +1,13 @@
+.rectangle{
+    background-color: rgb(217, 217, 217);
+    color: rgb(0, 0, 0);
+    padding: 8px;
+    border-radius: 1px;
+    border: 2px solid black;
+    border-color: black;
+    margin-left: 5px;
+}
+
+.rectangle:focus{
+    outline: none;
+}

@@ -1,5 +1,8 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import "../style/Rectangle.css"
+import "../style/Button.css"
+
 
 const Login = ()=>{
     const [cpf, setCpf] = useState("")
@@ -40,10 +43,10 @@ const Login = ()=>{
     }
 
     return <>
-      <input onInput={handleSetCpf} type="text" placeholder="cpf"/>
-      <input onInput={handleSetPassword} type="password" placeholder="password"/>
+      <input className="rectangle" onInput={handleSetCpf} type="text" placeholder="cpf"/>
+      <input className="rectangle" onInput={handleSetPassword} type="password" placeholder="password"/>
       <div>{res}</div>
-      <button onClick={handleLogin}>login</button>
+      <button className="rectangle" onClick={handleLogin}>login</button>
     </>
 }
 export default Login

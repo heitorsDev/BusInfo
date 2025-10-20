@@ -34,7 +34,8 @@ async function MotoristaAuth(CPF, Password) {
       { expiresIn: "24h" }
     );
 
-    return { success: true, message: "Authentication successful", token };
+    const user = { id: motorista.Id, name: motorista.Name, admin: motorista.Admin };
+    return { success: true, message: "Authentication successful", token, user };
   } catch (error) {
     // Loga o erro no console em caso de falha
     console.error("Error during Motorista authentication:", error);

@@ -1,7 +1,7 @@
 import { Motorista } from "../models/database.js"; // Importa o modelo Motorista do banco de dados
 import { Rota } from "../models/database.js"; // Importa o modelo Rota do banco de dados
 
-// Função para registrar uma relação entre um motorista e uma rota
+// Função para registrar uma relação entre um motorista e uma rota (sem Horario)
 async function MotoristaRotaRegister(Id_motorista, Id_rota, Horario) {
   try {
     // Busca o motorista pelo ID fornecido
@@ -10,8 +10,8 @@ async function MotoristaRotaRegister(Id_motorista, Id_rota, Horario) {
     // Busca a rota pelo ID fornecido
     const rota = await Rota.findByPk(Id_rota);
 
-    // Adiciona o motorista à rota, incluindo o campo "Horario" na tabela de associação
-    rota.addMotorista(motorista, { through: { Horario: Horario } });
+    // Adiciona o motorista à rota (sem campo Horario na tabela de associação)
+    await rota.addMotorista(motorista);
 
     // Retorna uma mensagem de sucesso se a relação for criada com sucesso
     return { success: true, message: "MotoristaRota relationship created successfully" };

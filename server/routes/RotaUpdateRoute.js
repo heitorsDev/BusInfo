@@ -4,7 +4,8 @@ import RotaUpdate from "../controllers/RotaUpdate.js"; // Importa o controlador 
 async function RotaUpdateRoute(req, res) {
     // Extrai os dados do corpo da requisição (IdRota, Numeropassageiros, Ativa, IdMotorista)
     const { IdRota, Numeropassageiros, Ativa, IdMotorista } = req.body;
-
+    console.log(IdRota, Numeropassageiros, Ativa, IdMotorista)
+    console.log(req.body)
     try {
         // Chama a função RotaUpdate para realizar a atualização da rota
         const result = await RotaUpdate(IdRota, Numeropassageiros, Ativa, IdMotorista);

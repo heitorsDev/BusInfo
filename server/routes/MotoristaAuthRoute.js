@@ -22,7 +22,7 @@ async function MotoristaAuthRoute(req, res) {
                     path: "/",
                 })
                 .status(200)
-                .json({ message: "Login successful" });
+                .json({ message: "Login successful", user: result.user });
         } else {
             // Retorna uma resposta de erro com status 401 e a mensagem correspondente
             res.status(401).json({ message: result.message });

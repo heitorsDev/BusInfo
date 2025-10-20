@@ -1,4 +1,3 @@
-
 import * as dotenv from 'dotenv';
 import express from 'express';
 import MotoristaRegisterRoute from './routes/MotoristaRegisterRoute.js';
@@ -14,22 +13,68 @@ import RotaUpdateRoute from './routes/RotaUpdateRoute.js';
 import GetRotaRoute from './routes/GetRotaRoute.js';
 import MotoristaRotaRegisterRoute from './routes/MotoristaRotaRegisterRoute.js';
 import GetRotasFromMotoristaRoute from './routes/GetRotasFromMotoristaRoute.js';
+import GetAllRotasRoute from './routes/GetAllRotasRoute.js';
+import GetAllPontosRoute from './routes/GetAllPontosRoute.js';
+import RotaAdminMetaUpdateRoute from './routes/RotaAdminMetaUpdateRoute.js';
+import RotaAdminDeleteRoute from './routes/RotaAdminDeleteRoute.js';
+import PontoAdminUpdateRoute from './routes/PontoAdminUpdateRoute.js';
+import PontoAdminDeleteRoute from './routes/PontoAdminDeleteRoute.js';
+import GetPontosFromRotaRoute from './routes/GetPontosFromRotaRoute.js';
+import PontoRotaAdminUpdateRoute from './routes/PontoRotaAdminUpdateRoute.js';
+import PontoRotaAdminDeleteRoute from './routes/PontoRotaAdminDeleteRoute.js';
+import GetMotoristasFromRotaRoute from './routes/GetMotoristasFromRotaRoute.js';
+import MotoristaRotaAdminUpdateRoute from './routes/MotoristaRotaAdminUpdateRoute.js';
+import MotoristaRotaAdminDeleteRoute from './routes/MotoristaRotaAdminDeleteRoute.js';
+import GetAllMotoristasRoute from './routes/GetAllMotoristasRoute.js';
 import cors from 'cors';
+
 const env = dotenv.config()
 const app = express()
 
 app.use(express.json())
 app.use(cookieParser());
 app.use(cors({
-   origin: 'http://localhost:5173',
-   credentials: true
+    origin: 'http://localhost:5173',
+    credentials: true
 }))
+
+// Admin: atualizar metadados de rota (Name, Numero, Horario_partida, Maximo_passageiros)
+app.put('/admin/rota/:id', ValidateMotorista, ValidateAdmin, RotaAdminMetaUpdateRoute)
+
+// Admin: deletar rota
+app.delete('/admin/rota/:id', ValidateMotorista, ValidateAdmin, RotaAdminDeleteRoute)
+
+app.get('/getallrotas', GetAllRotasRoute)
+app.get('/getallpontos', GetAllPontosRoute)
+app.get('/getallmotoristas', ValidateMotorista, ValidateAdmin, GetAllMotoristasRoute)
+
+// Admin: atualizar ponto (Localizacao)
+app.put('/admin/ponto/:id', ValidateMotorista, ValidateAdmin, PontoAdminUpdateRoute)
+
+// Admin: deletar ponto
+app.delete('/admin/ponto/:id', ValidateMotorista, ValidateAdmin, PontoAdminDeleteRoute)
+
+// Admin: listar pontos associados a uma rota (inclui Horario e id do relacionamento)
+app.get('/admin/rota/:id/pontos', ValidateMotorista, ValidateAdmin, GetPontosFromRotaRoute)
+
+// Admin: atualizar relacionamento ponto-rota (editar Horario ou reatribuir Ponto/Rota)
+app.put('/admin/pontorota/:id', ValidateMotorista, ValidateAdmin, PontoRotaAdminUpdateRoute)
+
+// Admin: deletar relacionamento ponto-rota
+app.delete('/admin/pontorota/:id', ValidateMotorista, ValidateAdmin, PontoRotaAdminDeleteRoute)
+
+// Admin: listar motoristas associados a uma rota (inclui Horario e id do relacionamento)
+app.get('/admin/rota/:id/motoristas', ValidateMotorista, ValidateAdmin, GetMotoristasFromRotaRoute)
+
+// Admin: atualizar relacionamento motorista-rota (editar Horario ou reatribuir Motorista/Rota)
+app.put('/admin/motoristarota/:id', ValidateMotorista, ValidateAdmin, MotoristaRotaAdminUpdateRoute)
+
+// Admin: deletar relacionamento motorista-rota
+app.delete('/admin/motoristarota/:id', ValidateMotorista, ValidateAdmin, MotoristaRotaAdminDeleteRoute)
 
 app.listen(process.env.PORT, () => {
     console.log(`Rodando em ${process.env.PORT}`)
 })
-
-//Rota de registro para usuarios comuns (motoristas)
 app.post('/register', MotoristaRegisterRoute)
 /*
 schema:
@@ -38,7 +83,7 @@ schema:
     "Password": "123456",
     "CPF": "01681209330"
 }
-*/ 
+*/
 
 //Rota de registro para administradores
 app.post('/adminRegister', AdminRegisterRoute)
@@ -112,7 +157,7 @@ app.post('/pontorotacreate', ValidateMotorista, ValidateAdmin, PontoRotaRegister
 /*TESTE: Deleta o token do motorista e loga como o outro motorista */
 
 //Rota de atualizacao de rota (somente aos motoristas associados a rota)
-app.post('/rotaupdate', ValidateMotorista, RotaUpdateRoute)
+app.put('/rotaupdate', ValidateMotorista, RotaUpdateRoute)
 /*
 {
 "IdRota":1, 
@@ -128,3 +173,4 @@ app.get('/getrota/:numero', GetRotaRoute)
 
 
 app.get('/getmotoristarotas/:id', ValidateMotorista, GetRotasFromMotoristaRoute)
+

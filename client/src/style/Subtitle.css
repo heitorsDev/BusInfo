@@ -1,0 +1,12 @@
+.subtitle{
+    background-color: rgb(105, 14, 185);
+    color: white;
+    font-family: 'Courier New', Courier, monospace;
+    padding: 10px;
+    border-radius: 5px;
+    border-color: none;
+}
+
+.subtitle:focus{
+    outline: none;
+}

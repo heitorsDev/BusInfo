@@ -112,8 +112,7 @@ node index.js
       ```json
       {
           "IdMotorista": 1, 
-          "IdRota": 1, 
-          "Horario": "08:00"
+          "IdRota": 1
       }
       ```
     - **Descrição**: Endpoint utilizado para associar motoristas a rotas, acessível apenas para administradores.
@@ -141,6 +140,27 @@ node index.js
       ```
     - **Descrição**: Endpoint utilizado para atualizar uma rota, acessível apenas aos motoristas associados à rota.
 
+9. **/admin/pontorota/:id** - Atualização de relacionamento Ponto-Rota (somente administradores)
+    - **Schema (parcial, campos opcionais)**:
+      ```json
+      {
+        "Horario": "09:30",
+        "Ponto_id": 2,
+        "Rota_id": 1
+      }
+      ```
+    - **Descrição**: Atualiza o relacionamento (redefine Horário e/ou reatribui Ponto/Rota).
+
+10. **/admin/motoristarota/:id** - Atualização de relacionamento Motorista-Rota (somente administradores)
+    - **Schema (parcial, campos opcionais)**:
+      ```json
+      {
+        "Motorista_id": 3,
+        "Rota_id": 1
+      }
+      ```
+    - **Descrição**: Atualiza o relacionamento (reatribui Motorista e/ou Rota). Não há campo Horário neste relacionamento.
+
 ---
 
 ### **GET**
@@ -149,6 +169,44 @@ node index.js
     - **Descrição**: Endpoint público para obter detalhes de uma rota específica pelo número da rota.
     - **Exemplo de URL**: `localhost:4000/getrota/363`
     - **Resposta**: Retorna detalhes sobre a rota com o número especificado.
+
+2. **/getallrotas** - Listar todas as rotas
+    - **Descrição**: Lista todas as rotas cadastradas.
+
+3. **/getallpontos** - Listar todos os pontos
+    - **Descrição**: Lista todos os pontos cadastrados.
+
+4. **/getallmotoristas** - Listar todos os motoristas (somente administradores)
+    - **Descrição**: Lista todos os motoristas cadastrados. Requer autenticação de administrador.
+
+5. **/getmotoristarotas/:id** - Listar rotas associadas a um motorista (autenticado ou admin)
+    - **Descrição**: Retorna a lista de rotas associadas ao motorista do ID informado.
+
+6. **/admin/rota/:id/pontos** - Listar pontos associados a uma rota (somente administradores)
+    - **Descrição**: Retorna os pontos associados à rota, incluindo `PontoRotaId` e `Horario` do relacionamento.
+
+7. **/admin/rota/:id/motoristas** - Listar motoristas associados a uma rota (somente administradores)
+    - **Descrição**: Retorna os motoristas associados à rota, incluindo `MotoristaRotaId` do relacionamento.
+
+---
+
+### **PUT / DELETE (Admin)**
+
+- **/admin/rota/:id**
+  - PUT: Atualiza metadados da rota (`Name`, `Numero`, `Horario_partida`, `Maximo_passageiros`).
+  - DELETE: Remove a rota.
+
+- **/admin/ponto/:id**
+  - PUT: Atualiza ponto (`Localizacao`).
+  - DELETE: Remove o ponto.
+
+- **/admin/pontorota/:id**
+  - PUT: Atualiza relacionamento Ponto-Rota (ver schema acima).
+  - DELETE: Remove o relacionamento Ponto-Rota.
+
+- **/admin/motoristarota/:id**
+  - PUT: Atualiza relacionamento Motorista-Rota (ver schema acima).
+  - DELETE: Remove o relacionamento Motorista-Rota.
 
 ---
 
