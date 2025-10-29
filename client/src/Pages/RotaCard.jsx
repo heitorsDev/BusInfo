@@ -182,37 +182,37 @@ const RotaCard = ({ data, allPontos = [], allMotoristas = [], onUpdated, onDelet
   return (
     <div style={{ border: "1px solid #ccc", padding: 8, marginBottom: 8 }}>
       <div>Id:{id}</div>
-      <div>
-        Nome: <input type="text" value={name} onInput={(e) => setName(e.target.value)} />
+      <div className="name" style={{fontFamily: "Arial", color: "black"}}>
+        Nome: <input className="rectangle" style={{backgroundColor: "white"}} type="text" value={name} onInput={(e) => setName(e.target.value)} />
       </div>
-      <div>
-        Número: <input type="text" value={numero} onInput={(e) => setNumero(e.target.value)} />
+      <div className="name" style={{fontFamily: "Arial", color: "black"}}>
+        Número: <input className="rectangle" style={{backgroundColor: "white"}} type="text" value={numero} onInput={(e) => setNumero(e.target.value)} />
       </div>
-      <div>
-        Horário de partida: <input type="text" value={horarioPartida} onInput={(e) => setHorarioPartida(e.target.value)} />
+      <div className="name" style={{fontFamily: "Arial", color: "black"}}>
+        Horário de partida: <input className="rectangle" style={{backgroundColor: "white"}} type="text" value={horarioPartida} onInput={(e) => setHorarioPartida(e.target.value)} />
       </div>
-      <div>
-        Máximo de passageiros: <input type="number" value={maximoPassageiros} onInput={(e) => setMaximoPassageiros(e.target.value)} />
+      <div className="name" style={{fontFamily: "Arial", color: "black"}}>
+        Máximo de passageiros: <input className="rectangle" style={{backgroundColor: "white"}} type="number" value={maximoPassageiros} onInput={(e) => setMaximoPassageiros(e.target.value)} />
       </div>
       {error && <div style={{ color: "red" }}>{error}</div>}
-      <button onClick={handleUpdate} disabled={saving}>Atualizar</button>
-      <button onClick={handleDelete} disabled={saving} style={{ marginLeft: 8 }}>Deletar</button>
+      <button className="button" onClick={handleUpdate} disabled={saving}>Atualizar</button>
+      <button className="button" onClick={handleDelete} disabled={saving} style={{ marginLeft: 8, color: "red"}}>Deletar</button>
 
       <div style={{ marginTop: 12, paddingTop: 8, borderTop: "1px dashed #ddd" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        <div className="name" style={{ display: "flex", alignItems: "center", gap: 8, fontFamily:"Arial" }}>
           <strong>Relações Ponto-Rota</strong>
-          <button onClick={fetchRotaPontos} disabled={loadingPontos}>
+          <button className="button" onClick={fetchRotaPontos} disabled={loadingPontos}>
             {loadingPontos ? "Atualizando..." : "Recarregar"}
           </button>
         </div>
-        <div style={{ fontSize: 12, color: "#666", marginTop: 4 }}>
+        <div className="name" style={{ fontSize: 12, color: "#666", marginTop: 4 }}>
           Edite o Horário ou reatribua o Ponto. Para remover a relação, use Deletar.
-        </div>
+          </div>
         <div style={{ marginTop: 8, display: "flex", flexDirection: "column", gap: 8 }}>
           {rotaPontos.map((pr, idx) => (
-            <div key={pr.PontoRotaId} style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: 'wrap' }}>
-              <span><strong>ID:</strong> {pr.PontoRotaId}</span>
-              <label>
+            <div className="name" key={pr.PontoRotaId} style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: 'wrap' }}>
+              <span style={{fontFamily: "Arial", color: "black"}}><strong>ID:</strong> {pr.PontoRotaId}</span>
+              <label style={{fontFamily: "Arial", color: "black"}}>
                 <strong>Ponto:</strong>
                 <select
                   value={pr._PontoId}
@@ -226,10 +226,10 @@ const RotaCard = ({ data, allPontos = [], allMotoristas = [], onUpdated, onDelet
                   ))}
                 </select>
               </label>
-              <label>
+              <label style={{fontFamily: "Arial", color: "black"}}>
                 <strong>Horário:</strong>
-                <input
-                  type="time"
+                <input className="rectangle" style={{backgroundColor: "white"}}
+                  type="time" 
                   value={pr._Horario}
                   onInput={(e) => {
                     const v = e.target.value;
@@ -237,30 +237,30 @@ const RotaCard = ({ data, allPontos = [], allMotoristas = [], onUpdated, onDelet
                   }}
                 />
               </label>
-              <button onClick={() => updatePontoRota(pr)}>Salvar</button>
-              <button onClick={() => deletePontoRota(pr.PontoRotaId)} style={{ color: '#b91c1c' }}>Deletar</button>
+              <button className="button" onClick={() => updatePontoRota(pr)}>Salvar</button>
+              <button className="button" onClick={() => deletePontoRota(pr.PontoRotaId)} style={{ color: '#b91c1c' }}>Deletar</button>
             </div>
           ))}
         </div>
       </div>
 
       <div style={{ marginTop: 12, paddingTop: 8, borderTop: "1px dashed #ddd" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        <div className="name" style={{ display: "flex", alignItems: "center", gap: 8, fontFamily: "Arial" }}>
           <strong>Relações Motorista-Rota</strong>
-          <button onClick={fetchRotaMotoristas} disabled={loadingMotoristas}>
+          <button className="button" onClick={fetchRotaMotoristas} disabled={loadingMotoristas}>
             {loadingMotoristas ? "Atualizando..." : "Recarregar"}
           </button>
         </div>
-        <div style={{ fontSize: 12, color: "#666", marginTop: 4 }}>
+        <div className="name" style={{ fontSize: 12, color: "#666", marginTop: 4 }}>
           Edite o Horário ou reatribua o Motorista. Para remover a relação, use Deletar.
         </div>
         <div style={{ marginTop: 8, display: "flex", flexDirection: "column", gap: 8 }}>
           {rotaMotoristas.map((mr, idx) => (
-            <div key={mr.MotoristaRotaId} style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: 'wrap' }}>
-              <span><strong>ID:</strong> {mr.MotoristaRotaId}</span>
-              <label>
+            <div className="name" key={mr.MotoristaRotaId} style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: 'wrap' }}>
+              <span style={{fontFamily: "Arial", color: "black"}}><strong>ID:</strong> {mr.MotoristaRotaId}</span>
+              <label style={{fontFamily: "Arial", color: "black"}}>
                 <strong>Motorista:</strong>
-                <select
+                <select className="rectangle" style={{backgroundColor: "white"}}
                   value={mr._MotoristaId}
                   onChange={(e) => {
                     const v = e.target.value;
@@ -272,8 +272,8 @@ const RotaCard = ({ data, allPontos = [], allMotoristas = [], onUpdated, onDelet
                   ))}
                 </select>
               </label>
-              <button onClick={() => updateMotoristaRota(mr)}>Salvar</button>
-              <button onClick={() => deleteMotoristaRota(mr.MotoristaRotaId)} style={{ color: '#b91c1c' }}>Deletar</button>
+              <button className="button" onClick={() => updateMotoristaRota(mr)}>Salvar</button>
+              <button className="button" onClick={() => deleteMotoristaRota(mr.MotoristaRotaId)} style={{ color: '#b91c1c' }}>Deletar</button>
             </div>
           ))}
         </div>

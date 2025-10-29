@@ -62,10 +62,10 @@ const PontoCard = ({ data, onUpdated, onDeleted }) => {
         />
       </div>
       {error && <div style={{ color: "red" }}>{error}</div>}
-      <button onClick={handleUpdate} disabled={saving}>
+      <button className="button" onClick={handleUpdate} disabled={saving}>
         Atualizar
       </button>
-      <button onClick={handleDelete} disabled={saving} style={{ marginLeft: 8 }}>
+      <button className="button" onClick={handleDelete} disabled={saving} style={{ marginLeft: 8, color: "red"}}>
         Deletar
       </button>
     </div>

@@ -46,7 +46,7 @@ const Login = ()=>{
       <input className="rectangle" onInput={handleSetCpf} type="text" placeholder="cpf"/>
       <input className="rectangle" onInput={handleSetPassword} type="password" placeholder="password"/>
       <div>{res}</div>
-      <button className="rectangle" onClick={handleLogin}>login</button>
+      <button className="button" onClick={handleLogin}>login</button>
     </>
 }
 export default Login

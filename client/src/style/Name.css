@@ -1,0 +1,12 @@
+.name{
+    background-color: rgb(228, 226, 199);
+    color: rgb(0, 0, 0);
+    padding: 8px;
+    border-radius: 1px;
+    margin-left: 5px;
+    margin-top: 5px;
+}
+
+.name:focus{
+    outline: none;
+}

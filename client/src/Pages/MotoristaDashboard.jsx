@@ -29,7 +29,7 @@ const Dashboard = ()=>{
     <div>
       {
         res.length === 0 ? (
-          <div>Nenhuma rota atribuída.</div>
+          <div className="rectangle">Nenhuma rota atribuída.</div>
         ) : (
           res.map((item)=> (
             <RotaMotoristaCard key={item.Id} rota={item} motoristaId={id} />

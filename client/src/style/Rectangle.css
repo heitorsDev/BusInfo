@@ -4,8 +4,9 @@
     padding: 8px;
     border-radius: 1px;
     border: 2px solid black;
-    border-color: black;
+    border-color: rgb(250, 184, 61);
     margin-left: 5px;
+    margin-top: 5px;
 }
 
 .rectangle:focus{

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react';  
 
 function RotaMotoristaCard({ rota, motoristaId }) {
   if (!rota) return null;
@@ -53,12 +53,12 @@ function RotaMotoristaCard({ rota, motoristaId }) {
   };
 
   return (
-    <div style={{ border: '1px solid #e5e7eb', padding: 8, marginBottom: 8, borderRadius: 6 }}>
+    <div className="button2" style={{ border: '1px solid #e5e7eb', padding: 8, marginBottom: 8, borderRadius: 6 }}>
       <div><strong>Nome:</strong> {rota.Name}</div>
       <div><strong>Número:</strong> {rota.Numero}</div>
       <div><strong>Máximo passageiros:</strong> {maxPass}</div>
 
-      <div style={{ marginTop: 8, display: 'flex', gap: 12, alignItems: 'center' }}>
+      <div className="button2" style={{ marginTop: 8, display: 'flex', gap: 12, alignItems: 'center' }}>
         <label style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
           <input type="checkbox" checked={ativa} onChange={handleToggleAtiva} disabled={saving} />
           <span>{ativa ? 'Ativa' : 'Inativa'}</span>

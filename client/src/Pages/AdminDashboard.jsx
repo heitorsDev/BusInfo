@@ -5,6 +5,7 @@ import PontoCard from "./PontoCard"
 import "../style/Button.css"
 import "../style/Rectangle.css"
 import "../style/Subtitle.css"
+import "../style/Name.css"
 const AdminDashboard = ()=>{
     const [allRotas, setAllRotas] = useState([])
     const [search, setSearch] = useState("")
@@ -163,6 +164,7 @@ const AdminDashboard = ()=>{
     }
 
     return <>
+    <div style={{backgroundColor: "rgb(255, 252, 221)"}}>
         <input className="rectangle"type="text" placeholder="Nome da rota" onInput={handleSetName}/>
     <input className="rectangle" type="number" placeholder="Numero da rota" onInput={handleSetNumero}/>
     <input className="rectangle" type="time" placeholder="Horario de partida" onInput={handleSetHorarioPartida}/>
@@ -203,7 +205,7 @@ const AdminDashboard = ()=>{
       <select className = "rectangle" value={assignMotoristaId} onChange={(e)=>setAssignMotoristaId(e.target.value)}>
         <option value="">Selecione o motorista</option>
         {allMotoristas.map(m=> (
-          <option key={m.Id} value={m.Id}>{m.Name} ({m.CPF})</option>
+          <option className="button" key={m.Id} value={m.Id}>{m.Name} ({m.CPF})</option>
         ))}
       </select>
       <button className="button" onClick={handleAssignMotoristaRota}>Atribuir</button>
@@ -218,6 +220,7 @@ const AdminDashboard = ()=>{
             return q === "" || n.includes(q) || num.includes(q)
           })
           .map((rota) => (
+            <div className="rectangle" style={{backgroundColor: "rgb(255, 252, 221)"}} key={rota.Id}>
             <RotaCard
               key={rota.Id}
               data={rota}
@@ -226,6 +229,7 @@ const AdminDashboard = ()=>{
               onUpdated={getAllRotas}
               onDeleted={getAllRotas}
             />
+            </div>
           ))
       }
     </div>
@@ -234,6 +238,7 @@ const AdminDashboard = ()=>{
       {allPontos.map((ponto) => (
         <PontoCard key={ponto.Id} data={ponto} onUpdated={getAllPontos} onDeleted={getAllPontos} />
       ))}
+    </div>
     </div>
     </>
 }

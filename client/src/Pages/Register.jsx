@@ -1,5 +1,6 @@
 
 import { useState } from "react"
+import "../style/Button2.css"
 
 const Register = ()=>{
     const [name, setName] = useState("")
@@ -56,18 +57,24 @@ const Register = ()=>{
     }
 
     return <>
-    <input onInput={handleSetName} type="text" placeholder="name"/>
-    <input onInput={handleSetCpf} type="text" placeholder="cpf"/>
-    <input onInput={handleSetPassword} type="text" placeholder="password"/>
-    <label>
-        <input type="checkbox" checked={isAdmin} onChange={handleToggleAdmin}/>
-        Register as Admin
+    <input className="rectangle" onInput={handleSetName} type="text" placeholder="name"/>
+    <input className="rectangle" onInput={handleSetCpf} type="text" placeholder="cpf"/>
+    <input className="rectangle" onInput={handleSetPassword} type="text" placeholder="password"/>
+    <label className="custom-checkbox-container">
+        <input 
+            type="checkbox" 
+            checked={isAdmin} 
+            onChange={handleToggleAdmin}
+            className="custom-checkbox"
+        />
+        <span className="checkmark"></span>
+        <span className="checkmark-label">Register as Admin</span>
     </label>
     {isAdmin && (
-        <input onInput={handleSetAdminKey} type="text" placeholder="admin key"/>
+        <input className="rectangle" onInput={handleSetAdminKey} type="text" placeholder="admin key"/>
     )}
     <div>{res}</div>
-    <button onClick={handleRegister}>register</button>
+    <button className="button" onClick={handleRegister}>register</button>
     </>
 }
 export default Register
