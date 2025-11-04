@@ -1,0 +1,29 @@
+.configuracao{
+    height: 0px;
+    width: 0px;
+    border-radius: 0px;
+    margin-left: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.configuracao:hover{
+    animation: rotate 1s;
+    border-color: transparent;  
+}
+
+.configuracao:focus{
+    outline: none;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    } 
+
+    100% {
+        transform: rotate(180deg);
+    }
+}
+  

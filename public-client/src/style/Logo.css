@@ -1,0 +1,12 @@
+.logo {
+    background-color: rgb(255, 115, 0);
+    color: white;
+    height: 100px;
+    width: 300px;
+    image-resolution: 500px 500px;
+    margin-bottom: 35px;
+    margin-left: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
