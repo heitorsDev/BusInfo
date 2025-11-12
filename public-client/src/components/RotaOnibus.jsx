@@ -11,6 +11,7 @@ import { useState } from 'react';
 function RotaOnibus(props) {
     const handleClick = () => {
         props.onSelect({
+            id: props.id,
             nome: props.nome,
             local: props.local,
             destino: props.destino,
@@ -22,12 +23,13 @@ function RotaOnibus(props) {
     
     return (
         <>
-        <div style={{ justifyContent: 'center', alignItems: 'center', display: 'flex', marginRight: '175px' }}>
-            <button className='rota' style={{ width: '525px', height: '135px', marginRight: '20px', marginBottom: '20px' }}
+        <div style={{marginTop: '1vh'}}>
+            <button className='rota' style={{ width: '525px', height: '135px', marginRight: '7vw'}}
                 onClick={handleClick}>
                 <ol>
                     <b>{props.nome}</b>
-                    <p>Destino: {props.destino}</p>
+                    <p>Quantidade estimada: {props.passageiros_min}/{props.passageiros_max}</p>
+                    <p>Horário de partida: {props.horario}</p>
                 </ol>
                 <img src={onibusreceba} style={{ width: '90px', height: '100px' }} className='img' alt="ônibus" />
             </button>

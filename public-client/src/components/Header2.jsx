@@ -1,42 +1,33 @@
+import { Link } from 'react-router-dom';
 import '../style/Header.css';
 import '../style/MenuOption.css';
 import '../style/Logo.css';
-import '../style/Configuracao.css'
-import '../style/MenuOption2.css'
+import '../style/Configuracao.css';
+import '../style/MenuOption2.css';
 import tomaImg from '../assets/toma.png';
 import logo from '../assets/logo.png';
 
 function Header() {
-    return (
-        <>
-        <button className='option2'
-        style={{marginTop:'15px', marginRight: '150px'}}>
-            login motorista
-        </button>
+  return (
+    <>
+    <div style={{backgroundColor: 'rgb(255, 115, 0)', position: 'fixed', top: '0vh', width: '100vw'}}>
+      <Link to="/configuracao" className="configuracao">
+        <img src={tomaImg} alt="toma" width="85vw" height="85vh" />
+      </Link>
 
-        <button className='configuracao'>
-        <img src={tomaImg} alt ="toma" width="100" height="100"/>
-        </button>
+      <div className="logo">
+        <img src={logo} width="110vw" height="100vh" alt="logo" />
+      </div>
+      
 
-        <div className="logo"><img src={logo} width="105" height="105"></img></div>
-
-        <div className="header">
-
-        <button
-        style={{marginRight: '65px'}}
-        className="option">HOME</button>
-
-        <button 
-        style={{marginRight: '65px'}}
-        className="option">HORÁRIOS</button>
-
-        <button 
-        style={{marginRight: '65px'}}
-        className="option">CONTATO</button>
-        
-        </div>
-        </>
-    );
+      <div className="header">
+        <Link to="/" style={{ marginRight: '14vw', borderRadius: '10px' }} className="option">HOME</Link>
+        <Link to="/horarios" style={{ marginRight: '14vw', borderRadius: '10px' }} className="option">HORÁRIOS</Link>
+        <Link to="/contato" style={{ marginRight: '0vw', borderRadius: '10px' }} className="option">CONTATO</Link>
+      </div>
+      </div>
+    </>
+  );
 }
 
 export default Header;

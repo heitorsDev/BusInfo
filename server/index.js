@@ -57,6 +57,9 @@ app.delete('/admin/ponto/:id', ValidateMotorista, ValidateAdmin, PontoAdminDelet
 // Admin: listar pontos associados a uma rota (inclui Horario e id do relacionamento)
 app.get('/admin/rota/:id/pontos', ValidateMotorista, ValidateAdmin, GetPontosFromRotaRoute)
 
+// Público: listar pontos associados a uma rota (somente leitura)
+app.get('/rota/:id/pontos', GetPontosFromRotaRoute)
+
 // Admin: atualizar relacionamento ponto-rota (editar Horario ou reatribuir Ponto/Rota)
 app.put('/admin/pontorota/:id', ValidateMotorista, ValidateAdmin, PontoRotaAdminUpdateRoute)
 

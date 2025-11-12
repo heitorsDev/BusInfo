@@ -1,0 +1,10 @@
+.case {
+    background-color: rgb(255, 115, 0);
+    width: 320px;
+    height: 50px;
+    padding: 5px;
+    border-radius: 4px 4px 0px 0px;
+    margin-left: 5vw;
+    overflow-x: hidden;
+    overflow-y: hidden;
+  }

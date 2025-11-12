@@ -1,0 +1,10 @@
+.quadrado2{
+    background-color: rgb(35, 35, 35);
+    height: 65vh;
+    width: 100vw;
+    border-radius: 0px;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}

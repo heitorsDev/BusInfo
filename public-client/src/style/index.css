@@ -1,16 +1,25 @@
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+:root.theme-dark {
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #323232;
+}
+
+:root.theme-light {
+  color: #213547;
+  background-color: rgb(231, 231, 231);
 }
 
 a {
@@ -54,15 +63,19 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+.theme-light a:hover {
+  color: #747bff;
 }
+
+.theme-light button {
+  background-color: #f9f9f9;
+}
+
+.theme-dark button {
+  background-color: #1a1a1a;
+}
+
+.theme-dark button:hover {
+  background-color: #0e0e0e;
+}
+
