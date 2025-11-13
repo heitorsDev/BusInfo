@@ -33,10 +33,23 @@ const app = express()
 
 app.use(express.json())
 app.use(cookieParser());
-app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:5174'],
-  credentials: true
-}))
+// Configure CORS to allow web clients (Vite) and Expo dev tools (8081) by default.
+// You can override with CORS_ORIGINS="http://host1:port,http://host2:port" in .env
+const allowedOrigins = (process.env.CORS_ORIGINS || 'http://localhost:5173,http://localhost:5174,http://localhost:8081')
+  .split(',')
+  .map((s) => s.trim())
+  .filter(Boolean);
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true); // allow non-browser requests
+      if (allowedOrigins.includes(origin)) return callback(null, true);
+      return callback(new Error('Not allowed by CORS'));
+    },
+    credentials: true,
+  })
+)
 
 // Admin: atualizar metadados de rota (Name, Numero, Horario_partida, Maximo_passageiros)
 app.put('/admin/rota/:id', ValidateMotorista, ValidateAdmin, RotaAdminMetaUpdateRoute)

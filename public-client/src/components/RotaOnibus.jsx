@@ -23,14 +23,14 @@ function RotaOnibus(props) {
     
     return (
         <>
-        <div style={{marginTop: '1vh'}}>
-            <button className='rota' style={{ width: '525px', height: '135px', marginRight: '7vw'}}
+        <div style={{marginTop: '2vh'}}>
+            <button className='rota' style={{ width: '525px', height: '165px', marginRight: '7vw'}}
                 onClick={handleClick}>
-                <ol>
-                    <b>{props.nome}</b>
-                    <p>Quantidade estimada: {props.passageiros_min}/{props.passageiros_max}</p>
+                <div>
+                    <p>{props.nome}</p>
+                    <p>Quantidade estimada:<h2>{props.passageiros_min}/{props.passageiros_max}</h2></p>
                     <p>Horário de partida: {props.horario}</p>
-                </ol>
+                </div>
                 <img src={onibusreceba} style={{ width: '90px', height: '100px' }} className='img' alt="ônibus" />
             </button>
         </div>
