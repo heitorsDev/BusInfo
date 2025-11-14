@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { ThemedText } from '@/components/themed-text';
+import { useAppTheme } from '@/hooks/app-theme';
 
 const API_BASE = process.env.EXPO_PUBLIC_API_URL || 'http://localhost:4000';
 
@@ -12,6 +14,8 @@ export default function HorariosScreen() {
   const [stops, setStops] = useState([]);
   const [stopsLoading, setStopsLoading] = useState(false);
   const [stopsError, setStopsError] = useState(null);
+  const { colorScheme } = useAppTheme();
+  const isDark = colorScheme === 'dark';
 
   useEffect(() => {
     let cancelled = false;
@@ -68,16 +72,21 @@ export default function HorariosScreen() {
     if (!item?.Ativa) return null;
     return (
       <TouchableOpacity style={styles.rotaCard} onPress={() => setSelectedRota(item)}>
-        <Text style={styles.rotaTitle}>{`${item.Numero} - ${item.Name}`}</Text>
+        <ThemedText style={styles.rotaTitle}>
+          {item.Name}
+          {typeof item.Numero_passageiros === 'number' && typeof item.Maximo_passageiros === 'number'
+            ? ` - ${item.Numero_passageiros} / ${item.Maximo_passageiros}`
+            : ''}
+        </ThemedText>
         <View style={styles.rotaMetaRow}>
           {item.Horario_partida ? (
-            <Text style={styles.rotaMeta}>Partida: {item.Horario_partida}</Text>
+            <ThemedText style={styles.rotaMeta}>Partida: {item.Horario_partida}</ThemedText>
           ) : null}
           {typeof item.Numero_passageiros === 'number' ? (
-            <Text style={styles.rotaMeta}>Min: {item.Numero_passageiros}</Text>
+            <ThemedText style={styles.rotaMeta}>Min: {item.Numero_passageiros}</ThemedText>
           ) : null}
           {typeof item.Maximo_passageiros === 'number' ? (
-            <Text style={styles.rotaMeta}>Max: {item.Maximo_passageiros}</Text>
+            <ThemedText style={styles.rotaMeta}>Max: {item.Maximo_passageiros}</ThemedText>
           ) : null}
         </View>
       </TouchableOpacity>
@@ -89,9 +98,9 @@ export default function HorariosScreen() {
       {loading ? (
         <View style={styles.center}><ActivityIndicator /></View>
       ) : error ? (
-        <Text style={styles.error}>{error}</Text>
+        <ThemedText style={styles.error}>{error}</ThemedText>
       ) : rotas.length === 0 ? (
-        <Text style={styles.muted}>Nenhuma rota encontrada.</Text>
+        <ThemedText style={styles.muted}>Nenhuma rota encontrada.</ThemedText>
       ) : (
         <FlatList
           data={rotas}
@@ -103,21 +112,36 @@ export default function HorariosScreen() {
 
       {selectedRota ? (
         <View style={styles.stopsContainer}>
-          <Text style={styles.stopsTitle}>Paradas de {selectedRota?.Name ?? selectedRota?.nome}</Text>
+          <ThemedText style={styles.stopsTitle}>Paradas de {selectedRota?.Name ?? selectedRota?.nome}</ThemedText>
           {stopsLoading ? (
             <ActivityIndicator />
           ) : stopsError ? (
-            <Text style={styles.error}>{stopsError}</Text>
+            <ThemedText style={styles.error}>{stopsError}</ThemedText>
           ) : stops.length === 0 ? (
-            <Text style={styles.muted}>Nenhuma parada encontrada.</Text>
+            <ThemedText style={styles.muted}>Nenhuma parada encontrada.</ThemedText>
           ) : (
             <FlatList
               data={stops}
               keyExtractor={(item, idx) => String(item?.Id ?? idx)}
               renderItem={({ item }) => (
-                <View style={styles.stopRow}>
-                  <Text style={styles.stopName}>{item.Localizacao}</Text>
-                  {item.Horario ? <Text style={styles.stopTime}>{item.Horario}</Text> : null}
+                <View
+                  style={[
+                    styles.stopRow,
+                    { borderBottomColor: isDark ? '#eee' : '#000000' },
+                  ]}
+                >
+                  <ThemedText
+                    style={[styles.stopName, { color: isDark ? '#ffffff' : '#000000' }]}
+                  >
+                    {item.Localizacao}
+                  </ThemedText>
+                  {item.Horario ? (
+                    <ThemedText
+                      style={[styles.stopTime, { color: isDark ? '#ffffff' : '#000000' }]}
+                    >
+                      {item.Horario}
+                    </ThemedText>
+                  ) : null}
                 </View>
               )}
             />
@@ -141,14 +165,14 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
     elevation: 2,
   },
-  rotaTitle: { fontSize: 16, fontWeight: '600', marginBottom: 6 },
+  rotaTitle: { fontSize: 16, fontWeight: '600', marginBottom: 6, color: 'rgb(255, 115, 0)' },
   rotaMetaRow: { flexDirection: 'row', gap: 12 },
-  rotaMeta: { color: '#555' },
+  rotaMeta: {},
   stopsContainer: { gap: 8, borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: '#ddd', paddingTop: 8 },
-  stopsTitle: { fontSize: 18, fontWeight: '700' },
+  stopsTitle: { fontSize: 18, fontWeight: '700', color: 'rgb(255, 115, 0)' },
   stopRow: { flexDirection: 'row', alignItems: 'center', paddingVertical: 8, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: '#eee' },
   stopName: { flex: 1, fontSize: 16 },
-  stopTime: { marginLeft: 8, color: '#333' },
-  error: { color: 'red' },
+  stopTime: { marginLeft: 8 },
+  error: {},
   muted: { color: 'gray' },
 });

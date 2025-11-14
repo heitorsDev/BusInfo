@@ -1,20 +1,28 @@
 import React from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
+import { ThemedText } from '@/components/themed-text';
+import { useAppTheme } from '@/hooks/app-theme';
+import acidente2 from '@/assets/images/acidente2.png';
 
 export default function NoticiasScreen() {
+  const { colorScheme } = useAppTheme();
+  const isDark = colorScheme === 'dark';
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: isDark ? '#151718' : '#ffffff' }]}>
       <View style={styles.rightColumn}>
-        <Text style={styles.title}>ACIDENTE</Text>
-        <Text style={styles.text}>
+        <ThemedText style={styles.title}>ACIDENTE</ThemedText>
+        <ThemedText style={[styles.text, { color: isDark ? '#ffffff' : '#000000' }]}>
           Uma colisão entre dois carros na BR-101 está atualmente atrapalhando a passagem de
           veículos na BR-101.
-        </Text>
-        <Text style={styles.title}>TRÂNSITO</Text>
-        <Text style={styles.text}>Estimativa de trânsito lento na região até 3 horas da tarde.</Text>
+        </ThemedText>
+        <ThemedText style={styles.title}>TRÂNSITO</ThemedText>
+        <ThemedText style={[styles.text, { color: isDark ? '#ffffff' : '#000000' }]}>
+          Estimativa de trânsito lento na região até 3 horas da tarde.
+        </ThemedText>
       </View>
       <Image
-        source={{ uri: 'https://reactnative.dev/img/tiny_logo.png' }}
+        source={acidente2}
         resizeMode="contain"
         style={styles.image}
       />
@@ -23,9 +31,16 @@ export default function NoticiasScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, flexDirection: 'row', padding: 16, gap: 12 },
+  container: {
+    flex: 1,
+    flexDirection: 'row',
+    padding: 16,
+    gap: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   rightColumn: { flex: 1, gap: 8 },
-  title: { fontSize: 18, fontWeight: '700' },
+  title: { fontSize: 18, fontWeight: '700', color: 'rgb(255, 115, 0)' },
   text: { fontSize: 16 },
-  image: { width: '45%', aspectRatio: 16 / 9, borderRadius: 12, backgroundColor: '#eee' },
+  image: { width: '45%', aspectRatio: 16 / 9, borderRadius: 12 },
 });

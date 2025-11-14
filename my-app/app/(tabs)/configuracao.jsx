@@ -1,17 +1,23 @@
-import React, { useState } from 'react';
-import { StyleSheet, Switch, Text, View } from 'react-native';
+import React from 'react';
+import { StyleSheet, Switch, View } from 'react-native';
+import { ThemedText } from '@/components/themed-text';
+import { useAppTheme } from '@/hooks/app-theme';
 
 export default function ConfiguracaoScreen() {
-  const [dark, setDark] = useState(false);
+  const { colorScheme, setColorScheme } = useAppTheme();
+  const dark = colorScheme === 'dark';
 
   return (
     <View style={styles.container}>
       <View style={styles.card}>
-        <Text style={styles.title}>Modo Escuro</Text>
-        <Switch value={dark} onValueChange={setDark} />
-        <Text style={styles.hint}>
-          Esta alternância é local ao app. O tema real segue as configurações do sistema.
-        </Text>
+        <ThemedText style={styles.title}>Modo Escuro</ThemedText>
+        <Switch
+          value={dark}
+          onValueChange={(value) => setColorScheme(value ? 'dark' : 'light')}
+        />
+        <ThemedText style={styles.hint}>
+          Troca entre os temas branco e escuro.
+        </ThemedText>
       </View>
     </View>
   );
@@ -29,6 +35,6 @@ const styles = StyleSheet.create({
     elevation: 2,
     gap: 8,
   },
-  title: { fontSize: 18, fontWeight: '700', color: 'rgb(255,115,0)' },
+  title: { fontSize: 18, fontWeight: '700', color: 'rgb(255, 115, 0)' },
   hint: { color: 'gray' },
 });
