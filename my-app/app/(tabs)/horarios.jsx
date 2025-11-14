@@ -3,7 +3,7 @@ import { ActivityIndicator, FlatList, StyleSheet, TextInput, TouchableOpacity, V
 import { ThemedText } from '@/components/themed-text';
 import { useAppTheme } from '@/hooks/app-theme';
 
-const API_BASE = process.env.EXPO_PUBLIC_API_URL || 'http://localhost:4000';
+const API_BASE = 'http://localhost:4000';
 
 export default function HorariosScreen() {
   const [rotas, setRotas] = useState([]);
@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
   rotaMeta: {},
   stopsContainer: { gap: 8, borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: '#ddd', paddingTop: 8 },
   stopsTitle: { fontSize: 18, fontWeight: '700', color: 'rgb(255, 115, 0)' },
-  passengersInfo: { fontSize: 14, marginBottom: 4 },
+  passengersInfo: { fontSize: 20, marginBottom: 4, color: 'rgb(255, 115, 0)'},
   stopRow: { flexDirection: 'row', alignItems: 'center', paddingVertical: 8, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: '#eee' },
   stopName: { flex: 1, fontSize: 16 },
   stopTime: { marginLeft: 8 },
