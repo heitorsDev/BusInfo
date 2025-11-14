@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
+import React, { useEffect, useMemo, useState } from 'react';
+import { ActivityIndicator, FlatList, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 import { ThemedText } from '@/components/themed-text';
 import { useAppTheme } from '@/hooks/app-theme';
 
@@ -16,6 +16,26 @@ export default function HorariosScreen() {
   const [stopsError, setStopsError] = useState(null);
   const { colorScheme } = useAppTheme();
   const isDark = colorScheme === 'dark';
+
+  const [query, setQuery] = useState('');
+
+  const filteredRotas = useMemo(() => {
+    if (!query?.trim()) return rotas;
+    const q = query.trim().toLowerCase();
+    return rotas.filter((r) => {
+      if (!r) return false;
+      // Try to match by an explicit number field if present
+      const explicitNumber = [r.Numero, r.numero, r.Numero_rota, r.numero_rota, r.NumeroRota]
+        .find((n) => typeof n === 'string' || typeof n === 'number');
+      if (explicitNumber && String(explicitNumber).toLowerCase().includes(q)) return true;
+      // Fallback: extract digits from name and compare
+      const name = typeof r.Name === 'string' ? r.Name : (typeof r.nome === 'string' ? r.nome : '');
+      const digitsInName = (name.match(/\d+/g) || []).join(' ');
+      if (digitsInName && digitsInName.toLowerCase().includes(q)) return true;
+      // Also allow name substring as last resort (in case user types full text)
+      return name.toLowerCase().includes(q);
+    });
+  }, [rotas, query]);
 
   useEffect(() => {
     let cancelled = false;
@@ -70,10 +90,15 @@ export default function HorariosScreen() {
 
   const renderRota = ({ item }) => {
     if (!item?.Ativa) return null;
+    const explicitNumber = [item.Numero, item.numero, item.Numero_rota, item.numero_rota, item.NumeroRota]
+      .find((n) => typeof n === 'string' || typeof n === 'number');
+    const nameForDigits = typeof item.Name === 'string' ? item.Name : (typeof item.nome === 'string' ? item.nome : '');
+    const digitsInName = (nameForDigits.match(/\d+/g) || []).join(' ').trim();
+    const rotaNumber = explicitNumber ? String(explicitNumber) : digitsInName;
     return (
       <TouchableOpacity style={styles.rotaCard} onPress={() => setSelectedRota(item)}>
         <ThemedText style={styles.rotaTitle}>
-          {item.Name}
+          {rotaNumber ? `[${rotaNumber}] ` : ''}{item.Name}
           {typeof item.Numero_passageiros === 'number' && typeof item.Maximo_passageiros === 'number'
             ? ` - ${item.Numero_passageiros} / ${item.Maximo_passageiros}`
             : ''}
@@ -95,6 +120,21 @@ export default function HorariosScreen() {
 
   return (
     <View style={styles.container}>
+      <View style={styles.searchRow}>
+        <TextInput
+          value={query}
+          onChangeText={setQuery}
+          placeholder="Buscar pelo número da rota"
+          placeholderTextColor={isDark ? '#aaa' : '#666'}
+          style={[
+            styles.searchInput,
+            { backgroundColor: isDark ? '#1e1e1e' : '#fff', color: isDark ? '#fff' : '#000' },
+          ]}
+          keyboardType="numeric"
+          returnKeyType="search"
+          autoCorrect={false}
+        />
+      </View>
       {loading ? (
         <View style={styles.center}><ActivityIndicator /></View>
       ) : error ? (
@@ -103,7 +143,7 @@ export default function HorariosScreen() {
         <ThemedText style={styles.muted}>Nenhuma rota encontrada.</ThemedText>
       ) : (
         <FlatList
-          data={rotas}
+          data={filteredRotas}
           keyExtractor={(item, idx) => String(item?.Id ?? idx)}
           renderItem={renderRota}
           contentContainerStyle={styles.listContent}
@@ -113,6 +153,18 @@ export default function HorariosScreen() {
       {selectedRota ? (
         <View style={styles.stopsContainer}>
           <ThemedText style={styles.stopsTitle}>Paradas de {selectedRota?.Name ?? selectedRota?.nome}</ThemedText>
+          {(
+            typeof selectedRota?.Numero_passageiros === 'number' ||
+            typeof selectedRota?.Maximo_passageiros === 'number'
+          ) ? (
+            <ThemedText style={styles.passengersInfo}>
+              {`Passageiros: ${
+                typeof selectedRota?.Numero_passageiros === 'number' ? selectedRota.Numero_passageiros : '—'
+              }${
+                typeof selectedRota?.Maximo_passageiros === 'number' ? ` / ${selectedRota.Maximo_passageiros}` : ''
+              }`}
+            </ThemedText>
+          ) : null}
           {stopsLoading ? (
             <ActivityIndicator />
           ) : stopsError ? (
@@ -156,6 +208,15 @@ const styles = StyleSheet.create({
   container: { flex: 1, padding: 16, gap: 16 },
   center: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   listContent: { gap: 12, paddingBottom: 16 },
+  searchRow: { flexDirection: 'row' },
+  searchInput: {
+    flex: 1,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: '#ddd',
+    borderRadius: 10,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+  },
   rotaCard: {
     backgroundColor: '#fff',
     borderRadius: 12,
@@ -170,6 +231,7 @@ const styles = StyleSheet.create({
   rotaMeta: {},
   stopsContainer: { gap: 8, borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: '#ddd', paddingTop: 8 },
   stopsTitle: { fontSize: 18, fontWeight: '700', color: 'rgb(255, 115, 0)' },
+  passengersInfo: { fontSize: 14, marginBottom: 4 },
   stopRow: { flexDirection: 'row', alignItems: 'center', paddingVertical: 8, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: '#eee' },
   stopName: { flex: 1, fontSize: 16 },
   stopTime: { marginLeft: 8 },

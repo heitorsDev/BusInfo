@@ -27,7 +27,7 @@
 }
 
 .rota:focus{
-    outline: 4px auto -webkit-focus-ring-color;
+    outline: none;
     outline-color: rgb(255, 115, 0);
 }
 
