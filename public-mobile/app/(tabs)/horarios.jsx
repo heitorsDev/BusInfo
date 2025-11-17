@@ -23,17 +23,18 @@ export default function HorariosScreen() {
     if (!query?.trim()) return rotas;
     const q = query.trim().toLowerCase();
     return rotas.filter((r) => {
+
       if (!r) return false;
-      // Try to match by an explicit number field if present
       const explicitNumber = [r.Numero, r.numero, r.Numero_rota, r.numero_rota, r.NumeroRota]
         .find((n) => typeof n === 'string' || typeof n === 'number');
+
       if (explicitNumber && String(explicitNumber).toLowerCase().includes(q)) return true;
-      // Fallback: extract digits from name and compare
       const name = typeof r.Name === 'string' ? r.Name : (typeof r.nome === 'string' ? r.nome : '');
       const digitsInName = (name.match(/\d+/g) || []).join(' ');
+
       if (digitsInName && digitsInName.toLowerCase().includes(q)) return true;
-      // Also allow name substring as last resort (in case user types full text)
       return name.toLowerCase().includes(q);
+
     });
   }, [rotas, query]);
 
@@ -108,10 +109,10 @@ export default function HorariosScreen() {
             <ThemedText style={styles.rotaMeta}>Partida: {item.Horario_partida}</ThemedText>
           ) : null}
           {typeof item.Numero_passageiros === 'number' ? (
-            <ThemedText style={styles.rotaMeta}>Min: {item.Numero_passageiros}</ThemedText>
+            <ThemedText style={styles.rotaMeta}>{item.Numero_passageiros}</ThemedText>
           ) : null}
           {typeof item.Maximo_passageiros === 'number' ? (
-            <ThemedText style={styles.rotaMeta}>Max: {item.Maximo_passageiros}</ThemedText>
+            <ThemedText style={styles.rotaMeta}>/  {item.Maximo_passageiros}</ThemedText>
           ) : null}
         </View>
       </TouchableOpacity>

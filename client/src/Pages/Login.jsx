@@ -43,10 +43,10 @@ const Login = ()=>{
     }
 
     return <>
-      <input className="rectangle" onInput={handleSetCpf} type="text" placeholder="cpf"/>
-      <input className="rectangle" onInput={handleSetPassword} type="password" placeholder="password"/>
+      <input className="rectangle" onInput={handleSetCpf} type="text" placeholder="CPF"/>
+      <input className="rectangle" onInput={handleSetPassword} type="password" placeholder="Senha"/>
       <div>{res}</div>
-      <button className="button" onClick={handleLogin}>login</button>
+      <button className="button" onClick={handleLogin} style={{fontFamily: 'Segoe UI', fontSize: '2.5vh'}}>Login</button>
     </>
 }
 export default Login
